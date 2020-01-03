@@ -5,7 +5,7 @@ import User from '../models/User';
 
 class AuthController {
   async store(req, res) {
-    const { email, pass } = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
 
@@ -13,7 +13,7 @@ class AuthController {
       return res.status(401).json({ error: 'User not found.' });
     }
 
-    if (!(await user.checkPassword(pass))) {
+    if (!(await user.checkPassword(password))) {
       return res.status(401).json({ error: 'Password invalid.' });
     }
 

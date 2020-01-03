@@ -1,13 +1,19 @@
 import { Router } from 'express';
 
-import CardController from './app/controllers/CardController';
+import UserController from './app/controllers/UserController';
+import AuthController from './app/controllers/AuthController';
+import authMiddleware from './app/middlewares/auth';
 
 const routes = Router();
 
-routes.get('/', (req, res) => res.json('TEST-API'));
+routes.get('/', (req, res) => res.json('JWT-API'));
 
-routes.get('/cards', CardController.index);
-routes.get('/cards/:id', CardController.show);
-routes.post('/cards', CardController.store);
+
+routes.post('/users', UserController.store);
+routes.post('/login', AuthController.store);
+
+routes.use(authMiddleware);
+
+routes.get('/test-auth', (req, res) => res.json({ logged: req.userId, result: 'JWT-API-AUTH' }));
 
 export default routes;
